@@ -1,0 +1,17 @@
+{
+  "name": "jev-for-claude",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Claude Code plugin with conservative hooks, evidence workflows, and opt-in Jev evaluation.",
+  "type": "module",
+  "author": "Jev for Claude Contributors",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test",
+    "privacy": "node scripts/privacy-scan.mjs",
+    "verify": "bash gates/verify_jev_for_claude.sh"
+  }
+}

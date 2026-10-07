@@ -1,0 +1,12 @@
+{
+  "name": "jev-workflows",
+  "displayName": "Jev for Claude",
+  "version": "0.1.0",
+  "description": "Conservative evidence-oriented workflows, bounded local hooks, and explicit opt-in Jev evaluation for Claude Code.",
+  "author": {
+    "name": "Jev for Claude Contributors"
+  },
+  "license": "MIT",
+  "keywords": ["safety", "verification", "browser-qa", "seo", "jev"],
+  "hooks": "./hooks/hooks.json"
+}

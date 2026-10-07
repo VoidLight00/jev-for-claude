@@ -1,0 +1,12 @@
+node_modules/
+coverage/
+.DS_Store
+*.log
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+secrets.json
+.claude/settings.local.json
+bounded-state/
