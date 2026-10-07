@@ -82,6 +82,8 @@ Review the plugin before loading it. This repository does not modify user or pro
 
 `scripts/privacy-scan.mjs` fails on symlinks, private filenames, binary or oversized files, email addresses, absolute home paths, hosted-account identifiers, common token forms, private key material, and bearer values. If the directory is a Git repository, it also scans commit identity and messages, local Git metadata, and every reachable historical blob within fail-closed object and byte bounds. Findings use opaque hashes instead of raw filenames and never print matched values or Git stderr.
 
+As a transport-metadata exception only, canonical credential-free GitHub remotes are accepted in HTTPS `github.com/<owner>/<repository>[.git]` form or canonical SSH scp form using user `git`, host `github.com`, and an `<owner>/<repository>.git` path. Userinfo other than that fixed SSH transport user, passwords, query strings, fragments, token values, private paths, and noncanonical GitHub remote forms remain subject to rejection. This exemption does not apply to URLs written inside repository files or commit content.
+
 Git commits are expected to use the generic author name `Jev for Claude Contributors` and a non-personal address using local part `contributors` at the reserved `example.invalid` domain. The scanner is intentionally conservative but cannot guarantee that all personal or secret data is absent. Review staged changes and Git history before publication.
 
 ## Design boundaries

@@ -1,7 +1,7 @@
 {
   "name": "jev-workflows",
   "displayName": "Jev for Claude",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Conservative evidence-oriented workflows, bounded local hooks, and explicit opt-in Jev evaluation for Claude Code.",
   "author": {
     "name": "Jev for Claude Contributors"

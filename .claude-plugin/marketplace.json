@@ -4,12 +4,12 @@
     "name": "Jev for Claude Contributors"
   },
   "description": "A local-first marketplace for the Jev for Claude plugin.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "plugins": [
     {
       "name": "jev-workflows",
       "description": "Conservative evidence-oriented workflows, bounded local hooks, and explicit opt-in Jev evaluation.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "source": "./",
       "strict": true
     }

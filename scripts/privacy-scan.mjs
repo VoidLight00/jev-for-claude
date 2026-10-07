@@ -38,6 +38,27 @@ function inspectText(findings, label, text, { allowGenericEmail = false } = {}) 
   }
 }
 
+export function isSafePublicRemote(value) {
+  if (typeof value !== 'string' || /[\u0000-\u0020\u007f]/.test(value)) return false;
+  if (contentRules.some(([rule, pattern]) => rule !== 'hosted account identifier' && pattern.test(value))) return false;
+  const owner = '[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?';
+  const repository = '[A-Za-z0-9._-]{1,100}';
+  const httpsPattern = new RegExp(`^https://github\\.com/${owner}/${repository}(?:\\.git)?$`);
+  const sshPattern = new RegExp(`^git@github\\.com:${owner}/${repository}\\.git$`);
+  return httpsPattern.test(value) || sshPattern.test(value);
+}
+
+function hasCredentialBearingRemoteSyntax(value) {
+  if (typeof value !== 'string') return true;
+  if (/^[^\s@/:]+@/.test(value)) return true;
+  try {
+    const parsed = new URL(value);
+    return Boolean(parsed.username || parsed.password || parsed.search || parsed.hash);
+  } catch {
+    return false;
+  }
+}
+
 async function walk(findings, root, directory) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const full = path.join(directory, entry.name);
@@ -109,7 +130,10 @@ function inspectGitIdentity(findings, root) {
       const value = separator === -1 ? '' : line.slice(separator + 1);
       if (key === 'user.name' && value !== genericAuthor) findings.push({ label: 'git-metadata', rule: 'non-generic local git user name' });
       else if (key === 'user.email' && value !== genericEmail) findings.push({ label: 'git-metadata', rule: 'non-generic local git user address' });
-      else if (key.startsWith('remote.')) inspectText(findings, 'git-metadata', value, { allowGenericEmail: true });
+      else if (key.startsWith('remote.') && !isSafePublicRemote(value)) {
+        inspectText(findings, 'git-metadata', value, { allowGenericEmail: true });
+        if (hasCredentialBearingRemoteSyntax(value)) findings.push({ label: 'git-metadata', rule: 'credential-bearing git remote' });
+      }
     }
   } catch (error) {
     if (error?.status !== 1) findings.push({ label: 'git-metadata', rule: 'unable to inspect local git metadata' });
